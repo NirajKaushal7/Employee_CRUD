@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import entity.Employee;
 
@@ -23,11 +24,11 @@ public class EmployeeService {
 	}
 
 	public Employee login(String userName, String password) {
-		for (int i = 0; i < empList.size(); i++) {
-			if (empList.get(i).getUserName().equals(userName) && empList.get(i).getPassword().equals(password)) {
-				return empList.get(i);
-			}
-		}
+	Optional<Employee> authenticEmployee  = empList.stream().filter(employee -> employee.getUserName().equals(userName)  && employee.getPassword().equals(password)).findFirst();	
+	if(authenticEmployee.isPresent())
+	{
+	return 	authenticEmployee.get();
+	}
 		return null;
 	}
 }
