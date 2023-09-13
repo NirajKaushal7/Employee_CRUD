@@ -21,7 +21,7 @@ import service.EmployeeService;
 @WebServlet("/Init")
 public class Init extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    EmployeeService ec = new EmployeeService();
+    EmployeeService ec = EmployeeService.getEmployeeService();
     /**
      * Default constructor. 
      */
@@ -53,20 +53,35 @@ public class Init extends HttpServlet {
 		//doGet(request, response);
 		String userName = request.getParameter("userName");
 		String password= request.getParameter("password");
+		String operation = request.getParameter("operation");
+		if(operation.equals("Login"))
+		{
 		Employee employee = ec.login(userName,password) ;
-		if(employee != null)
-		{
-		RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("Home.jsp");
-		HttpSession session = request.getSession();
-		session.setAttribute("employee", employee); 
-		request.setAttribute("employee", employee);
-		requestDispatcher.include(request, response);
-		}
-		else
-		{
-		RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("Login.jsp");
-		request.setAttribute("message", "Invalid Credentials");
-		requestDispatcher.forward(request, response);
+			if(employee != null )
+				{
+				if(employee.isAdmin())
+				{
+				RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("AdminMenuPage.jsp");
+				HttpSession session = request.getSession();
+				session.setAttribute("employee", employee); 
+				request.setAttribute("employee", employee);
+				requestDispatcher.include(request, response);
+				}
+				else 
+				{
+					RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("UserMenuPage.jsp");
+					HttpSession session = request.getSession();
+					session.setAttribute("employee", employee); 
+					request.setAttribute("employee", employee);
+					requestDispatcher.include(request, response);
+				}
+				}
+			else
+				{
+				RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("Login.jsp");
+				request.setAttribute("message", "Invalid Credentials");
+				requestDispatcher.forward(request, response);
+				}
 		}
 	}
 

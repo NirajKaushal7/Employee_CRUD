@@ -8,7 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Login Page</title>
 </head>
 <body>
 <%String message = (String)request.getAttribute("message");
@@ -30,7 +30,7 @@ if(message != null)
     <input type="password" class="form-control" id="exampleInputPassword1" name = "password">
   </div>
 
-  <button type="submit" class="btn btn-primary" name = "login">Login</button>
+  <button type="submit" value = "Login" class="btn btn-primary" name = "operation">Login</button>
 </form>
 </body>
 </html>
