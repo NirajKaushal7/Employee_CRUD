@@ -1,3 +1,8 @@
+<%! Employee employee1; %>
+<%employee1 = (Employee)request.getSession().getAttribute("employee"); 
+if(employee1 != null ){
+%>
+     <%@ page import="entity.Employee" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
@@ -22,7 +27,7 @@
 <%! Employee employee;
 EmployeeService employeeService = EmployeeService.getEmployeeService();%>
 <% 
-employee = (Employee) request.getAttribute("employee");
+employee = (Employee) session.getAttribute("employee");
 %>
 <table class="table">
     <thead>
@@ -70,3 +75,10 @@ else{
 </div>
 </body>
 </html>
+<%
+} 
+else
+{
+response.sendRedirect("Login.jsp?message=Login Firstly");	
+}
+%>

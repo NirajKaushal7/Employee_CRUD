@@ -1,5 +1,15 @@
+<%! Employee employee1; %>
+<%employee1 = (Employee)request.getSession().getAttribute("employee"); 
+if(employee1 != null ){
+%>
+     <%@ page import="entity.Employee" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+    <%@ page import="entity.Employee" %>
+     <%@ page import="service.EmployeeService" %>
+     <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +23,20 @@
 <title>Edit Employee</title>
 </head>
 <body>
-<%@include file="Navbar.jsp" %>
-<div class="container">
 
+
+<%--<%= editDetails --%>
+<%
+//if( editDetails !=null  &&  editDetails.equals("Admin"))
+//{
+//if(employee.isAdmin())	
+//{
+%>	
+<%@include file="Navbar.jsp" %>
+<%
+//}
+%>
+<div class="container">
 
   <form action ="Operations" method = "post">
     <div class="input-group">
@@ -24,12 +45,32 @@
       <input  type="text" class="form-control" name="lastName" placeholder="Enter Last Name" required>
       <input  type="text" class="form-control" name="userName" placeholder="Enter User Name" required>
       <input  type="password" class="form-control" name="password" placeholder="Enter  Password" required>
-      <input  type="text" class="form-control" name="isAdmin" placeholder="In case of Admin type y otherwise n" required>
-      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>   
+           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>   
+      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+</div>
     </div>
-      <input  type="submit" class="form-control" name="operation" value = "Edit">
+<%
+//if( editDetails !=null  &&  editDetails.equals("Admin"))
+//{
+//if(employee.isAdmin())	
+//{
+%>
+  <input type="radio" class="btn-check" name="isAdmin" id="radio" autocomplete="off" value = "Admin" >
+  <label class="btn btn-outline-primary" for="btnradio1">Admin</label>
+
+  <input type="radio" class="btn-check" name="isAdmin" id="radio" autocomplete="off" value ="User" checked>
+  <label class="btn btn-outline-primary" for="btnradio2">User</label> 
+ <%//} %>    
+  <input  type="submit" class="form-control" name="operation" value = "Edit">
   </form>
 </div>
 
 </body>
 </html>
+<%
+} 
+else
+{
+response.sendRedirect("Login.jsp?message=Login Firstly");	
+}
+%>

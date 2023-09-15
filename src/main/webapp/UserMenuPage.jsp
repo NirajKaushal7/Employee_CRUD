@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
@@ -17,13 +18,20 @@
   
 <title>User Menu Page</title>
 </head>
-<body>
-<div>
 <%! Employee employee;
 %>
 <%
-employee = (Employee) request.getAttribute("employee");
+employee = (Employee) session.getAttribute("employee");
+
+if(employee !=null)
+{
 %>
+<body>
+    <div align="right"><li  ><a class="btn btn-danger" href="Operations?operation=Logout">Logout</a></li></div>
+     
+<form action = EditEmpDetails.jsp method ="post">
+
+<%--<%=employee--%>
 <table class="table">
     <thead>
       <tr>
@@ -44,15 +52,31 @@ employee = (Employee) request.getAttribute("employee");
        <td><%= "No" %></td>
      </tr>
     </tbody>
-  </table>
+  </table>  
+  <input  type="submit"  class="form-control" name="operation" value = "Edit Details">
+  
+  </form>
 </div>
 </body>
 </html>
+<%
+}
+else
+{
+response.sendRedirect("Login.jsp?message=Login Firstly");	
+}
+%>
 
 <%--
-incremental form me id ana chaiye
-admin cant be able to delete to admin
+incremental form me id ana chaiye automatically 
+admin can't be able to delete to admin
 radio button for isadmin in addEmployee
 user can edit the details except id
-user can't be able to check  when logout
+user can't be able to check out pages when logout and before login.
+
+Employee id comes in incremented order automatically
+Admin can not delete YourSelf and Anyone
+isAdmin k liye RadioButton bnana he
+User khud ka data dekh k edit bhi kr pae EmployeeID chord k
+User bina login k kisi bhi page pr na jaa pae  (Session valid nhi he to hme home page bhi show nhi hona chahiye direct Login page pr Redirect kr dena chahiye )(Seesion.inValidate use hoga)
  --%>

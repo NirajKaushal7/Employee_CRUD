@@ -1,7 +1,10 @@
+<%! Employee employee1; %>
+<%employee1 = (Employee)request.getSession().getAttribute("employee"); 
+if(employee1 != null ){
+%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
-   
     <%@ page import="entity.Employee" %>
      <%@ page import="service.EmployeeService" %>
      <%@ page import="java.util.List" %>
@@ -21,6 +24,7 @@
 <%@include file="Navbar.jsp" %>
 <form >
 <div>
+
 <%! 
 EmployeeService employeeService = EmployeeService.getEmployeeService();%>
 <table class="table">
@@ -55,3 +59,10 @@ for(int i=0 ; i < list.size();i++)
 </form>
 </body>
 </html>
+<%
+} 
+else
+{
+response.sendRedirect("Login.jsp?message=Login Firstly");	
+}
+%>

@@ -1,8 +1,10 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import entity.Employee;
 
@@ -28,7 +30,8 @@ public class EmployeeService {
 		return employeeService;
 	}
 	public List<Employee> getList() {
-		return empList;
+		
+		return empList.stream().sorted(Comparator.comparingInt(Employee::getId)).collect(Collectors.toList());
 	}
 
 	public Employee login(String userName, String password) 
@@ -56,7 +59,10 @@ public class EmployeeService {
             employee.setLastName(lastName);
             employee.setUserName(userName);
             employee.setPassword(password);
+            if(!employee.isAdmin())
+            {
             employee.setAdmin(isAdmin);
+            }
                }
 		});
 	}
@@ -64,6 +70,10 @@ public class EmployeeService {
 
 	public void deleteEmployee(int id)
 	{	
+	boolean isAdmin = empList.stream().anyMatch(e -> e.getId() == id && e.isAdmin());	
+	if(!isAdmin)
+	{
 	empList.removeIf(employee -> employee.getId() == id);
+	}
 	}
 }

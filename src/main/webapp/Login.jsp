@@ -12,11 +12,17 @@
 </head>
 <body>
 <%String message = (String)request.getAttribute("message");
+if(message == null)
+{
+message = (String)request.getParameter("message");//this for when we hit the url without login	
+}
 if(message != null)
 {
 %>
 <div >
-  <strong >Invalid Details </strong>Try Again.
+<center>
+  <strong style="color:red"><%=message%></strong>
+</center>
 </div>
 <% } %>
 <form action ="Init" method = "post">

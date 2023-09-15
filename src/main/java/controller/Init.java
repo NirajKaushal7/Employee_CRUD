@@ -42,7 +42,11 @@ public class Init extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//doPost(request, response);
+		
+		RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("Login.jsp");
+		request.setAttribute("message", "Login Firstly");
+		requestDispatcher.forward(request, response);
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class Init extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String password= request.getParameter("password");
 		String operation = request.getParameter("operation");
-		if(operation.equals("Login"))
+		if(operation != null && operation.equals("Login"))
 		{
 		Employee employee = ec.login(userName,password) ;
 			if(employee != null )
@@ -65,6 +69,7 @@ public class Init extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("employee", employee); 
 				request.setAttribute("employee", employee);
+				session.setAttribute("editDetails", "Admin");
 				requestDispatcher.include(request, response);
 				}
 				else 
@@ -73,16 +78,18 @@ public class Init extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("employee", employee); 
 					request.setAttribute("employee", employee);
+					session.setAttribute("editDetails", "User");
 					requestDispatcher.include(request, response);
 				}
 				}
 			else
 				{
 				RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("Login.jsp");
-				request.setAttribute("message", "Invalid Credentials");
+				request.setAttribute("message", "Invalid Credentials ");
 				requestDispatcher.forward(request, response);
 				}
 		}
+		
 	}
 
 }
