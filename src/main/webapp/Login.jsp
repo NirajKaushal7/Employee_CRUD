@@ -12,10 +12,6 @@
 </head>
 <body>
 <%String message = (String)request.getAttribute("message");
-if(message == null)
-{
-message = (String)request.getParameter("message");//this for when we hit the url without login	
-}
 if(message != null)
 {
 %>
@@ -25,7 +21,7 @@ if(message != null)
 </center>
 </div>
 <% } %>
-<form action ="Init" method = "post">
+<form action ="Login" method = "post">
   <div class="form-group">
     <label for="exampleInputEmail1">User Name</label>
     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter User  Name" name = "userName">

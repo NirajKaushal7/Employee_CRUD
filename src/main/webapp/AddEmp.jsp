@@ -1,7 +1,8 @@
-<%! Employee employee1; %>
+<%--<%! Employee employee1;
 <%employee1 = (Employee)request.getSession().getAttribute("employee"); 
 if(employee1 != null ){
 %>
+ --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
      <%@ page import="service.EmployeeService" %>
@@ -19,14 +20,26 @@ if(employee1 != null ){
 
 <title>Add Employee</title>
 </head>
-<body>
-<%@include file="Navbar.jsp" %><%-- here we add the Navbar --%>
-<%! 
-EmployeeService employeeService = EmployeeService.getEmployeeService();
-%>
+<%--These below headers are often used to ensure that a web page or resource is not cached,
+ or if it is cached, it should not be used after its expiration date. 
+ use it before body tag
+ --%>
 <%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+if(session.getAttribute("employee")==null)
+{
+	response.sendRedirect("Login.jsp?message=Login Firstly");
+}	
+%> 
+<%
+EmployeeService employeeService = EmployeeService.getEmployeeService();
 List<Employee> empList = employeeService.getList();
-int id = empList.size()+1;%>
+int id = empList.get(empList.size()-1).getId()+1;%>
+
+<body>
+    <div align="right"><a class="btn btn-danger" href="Operations?operation=Logout">Logout</a></div>
 <%--<%= editDetails --%>
 
 <div class="container">
@@ -53,12 +66,3 @@ int id = empList.size()+1;%>
 
 </body>
 </html>
-<%
-} 
-else
-{
-response.sendRedirect("Login.jsp?message=Login Firstly");	
-}
-%>
-
-

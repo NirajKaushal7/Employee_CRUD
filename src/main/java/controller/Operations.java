@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,23 +30,55 @@ public class Operations extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		/*
+
 		String operation =(String)request.getParameter("operation");
-		if(operation != null && operation.equals("Delete"))
+		if(operation != null)
 		{
-			int id = Integer.parseInt((String) request.getParameter("id"));
-			employeeService.deleteEmployee(id);					
-			request.getRequestDispatcher("ShowAllEmp.jsp").include(request, response);
+		if( operation.equals("Logout")) 
+		{
+		HttpSession session = request.getSession(false);	
+		if(session != null)
+		{
+		session.invalidate();
+		/*
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		response.setDateHeader("Expires", 0);
+		*/
+		response.sendRedirect("Login.jsp");
+		}
+		}
+
+		if(operation.equals("Delete"))
+		{
+		String idString = (String) request.getParameter("id");	
+		int id = Integer.parseInt(idString);
+		employeeService.deleteEmployee(id);					
+		response.sendRedirect("AdminMenuPage.jsp");//we used it bcz  when we click on back then old response will be updated
+		//request.getRequestDispatcher("ShowAllEmp.jsp").forward(request, response);//	here no any updation will occur 
+		}
+
+
+		if(operation.equals("Edit"))
+		{
+		String id = (String)request.getParameter("id");
+		
+		System.out.println(id);
+		}
 		}
 		else
-		{*/
+		{
+		/*	here no any updation will occur 
 		RequestDispatcher 	requestDispatcher = request.getRequestDispatcher("Login.jsp");
 		request.setAttribute("message", "Login Firstly");
 		requestDispatcher.forward(request, response);
-		//}
+		*/
+		response.sendRedirect("Login.jsp?message=Login Firstly");//used it bcz when we click back then old response will be updated
+		}
 	}
 		
 
@@ -80,13 +111,15 @@ public class Operations extends HttpServlet {
 		if(operation != null && operation.equals("Add") ) 
 		{	
 		employeeService.addEmployee(id, firstName, lastName, userName, password, isAdmin);
-		request.getRequestDispatcher("ShowAllEmp.jsp").forward(request, response);
+		//request.getRequestDispatcher("ShowAllEmp.jsp").forward(request, response);
+		response.sendRedirect("AdminMenuPage.jsp");
 		}	
 		
 		if( operation != null && operation.equals("Edit")) 
 		{
 		employeeService.editEmployee(id, firstName, lastName, userName, password, isAdmin);
-		request.getRequestDispatcher("ShowAllEmp.jsp").forward(request, response);
+		//request.getRequestDispatcher("ShowAllEmp.jsp").forward(request, response);
+		response.sendRedirect("AdminMenuPage.jsp");
 		}
 		
 
@@ -99,13 +132,15 @@ public class Operations extends HttpServlet {
 		session.removeAttribute("employee");
 		Employee employee = new Employee(id, firstName, lastName, userName, password, isAdmin);		
 		session.setAttribute("employee",employee);
+		response.sendRedirect("UserMenuPage.jsp");
+		
 		 /*
 		employee.setFirstName(firstName);
 		employee.setLastName(lastName);
 		employee.setUserName(userName);
 		employee.setPassword(password);
 		*/
-		request.getRequestDispatcher("UserMenuPage.jsp").forward(request, response);		
+		//request.getRequestDispatcher("UserMenuPage.jsp").forward(request, response);		
 		}	
 		
 		if( operation != null && operation.equals("Delete")) 
@@ -115,10 +150,6 @@ public class Operations extends HttpServlet {
 		request.getRequestDispatcher("ShowAllEmp.jsp").include(request, response);
 		}
 		
-		if( operation != null && operation.equals("Logout")) 
-		{
-		request.getSession().invalidate();	
-		}
 	}
 	
 }

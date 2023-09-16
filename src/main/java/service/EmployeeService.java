@@ -43,6 +43,16 @@ public class EmployeeService {
 	}
 		return null;
 	}
+
+	public Employee getEmployeeById(int id) 
+	{
+	Optional<Employee> authenticEmployee  = empList.stream().filter(employee -> employee.getId() == id).findFirst();	
+	if(authenticEmployee.isPresent())
+	{
+	return 	authenticEmployee.get();
+	}
+		return null;
+	}
 	
 	public void addEmployee(int id, String firstName, String lastName, String userName, String password, boolean isAdmin)
 	{

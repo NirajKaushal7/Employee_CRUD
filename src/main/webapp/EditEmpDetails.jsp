@@ -16,7 +16,15 @@
 </head>
 <body>
 <%! Employee employee;%>
+
+<%--These below headers are often used to ensure that a web page or resource is not cached,
+ or if it is cached, it should not be used after its expiration date. 
+ use it before body tag
+ --%>
 <% 
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
 employee = (Employee) session.getAttribute("employee");
 if(employee != null)
 {
@@ -28,10 +36,11 @@ if(employee != null)
 
 <form action ="Operations?id=<%= employee.getId()%>" method = "post"> 
     <div class="input-group">
-      <input  type="text" class="form-control" name="firstName" placeholder="Enter First Name" required>
-      <input  type="text" class="form-control" name="lastName" placeholder="Enter Last Name" required>
-      <input  type="text" class="form-control" name="userName" placeholder="Enter User Name" required>
-      <input  type="password" class="form-control" name="password" placeholder="Enter  Password" required>
+      <input id="id" type="number" class="form-control" name="id" placeholder="Enter id" required value = <%=employee.getId() %> readonly>
+      <input  type="text" class="form-control" name="firstName" placeholder="Enter First Name" required value = <%=employee.getFirstName() %>>
+      <input  type="text" class="form-control" name="lastName" placeholder="Enter Last Name" required value = <%=employee.getLastName() %>>
+      <input  type="text" class="form-control" name="userName" placeholder="Enter User Name" required value = <%=employee.getUserName() %>>
+      <input  type="password" class="form-control" name="password" placeholder="Enter  Password" required value = <%=employee.getPassword() %>>
            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>   
       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 </div>

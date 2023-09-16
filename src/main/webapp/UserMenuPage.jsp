@@ -20,7 +20,15 @@
 </head>
 <%! Employee employee;
 %>
+
+<%--These below headers are often used to ensure that a web page or resource is not cached,
+ or if it is cached, it should not be used after its expiration date. 
+ use it before body tag
+ --%>
 <%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
 employee = (Employee) session.getAttribute("employee");
 
 if(employee !=null)
